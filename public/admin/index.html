@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard Admin - Twitch Overlay</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Configuration de l'Overlay</h1>
+
+    <!-- Statut de connexion -->
+    <div id="status-card" class="card">
+      <p>Statut : <span id="status-text">Non connecté</span></p>
+    </div>
+
+    <!-- Connexion Twitch en 1 clic -->
+    <div class="card">
+      <h2>1. Connexion Twitch</h2>
+      <p class="help-text">Connecte ton compte Twitch pour autoriser la lecture des messages épinglés du chat.</p>
+      <button id="login-twitch-btn">Se connecter avec Twitch</button>
+    </div>
+
+    <!-- Lien Overlay OBS -->
+    <div class="card">
+      <h2>2. Lien pour OBS</h2>
+      <div class="url-box">
+        <input type="text" id="overlay-url" value="http://localhost:3000/overlay" readonly>
+        <button id="copy-btn">Copier</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

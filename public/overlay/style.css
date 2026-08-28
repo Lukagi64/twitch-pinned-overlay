@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: transparent; /* Fond transparent pour OBS */
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 20px;
+}
+
+/* Conteneur principal avec transition d'apparition */
+#pinned-container {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  max-width: 450px;
+  width: 100%;
+}
+
+/* Masquage de l'overlay */
+#pinned-container.hidden {
+  opacity: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+}
+
+/* Carte du message */
+.pinned-card {
+  background: rgba(24, 24, 27, 0.92);
+  backdrop-filter: blur(10px);
+  border-left: 4px solid #cc0000;
+  border-radius: 8px;
+  padding: 14px 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  color: #efeff1;
+}
+
+/* En-tête */
+.pinned-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #adadb8;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.pin-icon {
+  color: #cc0000;
+  display: flex;
+  align-items: center;
+}
+
+.pinned-by {
+  font-weight: 400;
+  color: #adadb8;
+  margin-left: auto;
+}
+
+/* Contenu du message */
+.pinned-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.author-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: #b10000;
+}
+
+.message-text {
+  font-size: 13px;
+  line-height: 1.4;
+  color: #efeff1;
+  word-break: break-word;
+}

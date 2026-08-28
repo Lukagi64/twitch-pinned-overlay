@@ -1,0 +1,17 @@
+# Dépendances Node
+node_modules/
+
+# Builds et exécutables
+dist/
+out/
+build/
+
+# Fichiers système & éditeurs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*

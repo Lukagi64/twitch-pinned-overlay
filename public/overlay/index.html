@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Twitch Pinned Message Overlay</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="pinned-container" class="hidden">
+    <div class="pinned-card">
+      <div class="pinned-header">
+        <div class="pin-icon">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M16 12V4H17V2H7V4H8V12L6 14V16H11V22H13V16H18V14L16 12Z"/>
+          </svg>
+        </div>
+        <span class="pinned-label">Message Épinglé</span>
+        <span id="pinned-by" class="pinned-by"></span>
+      </div>
+      <div class="pinned-content">
+        <span id="author-name" class="author-name"></span>
+        <p id="message-text" class="message-text"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="overlay.js"></script>
+</body>
+</html>

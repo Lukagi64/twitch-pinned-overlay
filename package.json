@@ -1,0 +1,30 @@
+{
+  "name": "twitch-pinned-overlay",
+  "version": "1.0.0",
+  "description": "Overlay OBS pour messages épinglés Twitch",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win"
+  },
+  "build": {
+    "appId": "com.votre-nom.twitch-pinned-overlay",
+    "productName": "Twitch Pinned Overlay",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!dist/*"
+    ],
+    "win": {
+      "target": "nsis"}
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.3"
+  }
+}
