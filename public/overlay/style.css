@@ -88,3 +88,10 @@ body {
   color: #efeff1;
   word-break: break-word;
 }
+
+.message-text .twitch-emote {
+  height: 1.4em;
+  vertical-align: middle;
+  margin: -0.2em 0.1em 0 0.1em;
+  display: inline-block;
+}
