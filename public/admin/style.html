@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personnalisation du Style — Overlay Twitch</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .editor-container {
+      display: flex;
+      gap: 24px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .controls-panel {
+      flex: 1;
+      background: #18181b;
+      padding: 20px;
+      border-radius: 8px;
+      color: #fff;
+    }
+    .preview-panel {
+      flex: 1;
+      background: #18181b;
+      padding: 20px;
+      border-radius: 8px;
+      color: #fff;
+    }
+    .field {
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .field-checkbox {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+      background: #0e0e10;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div style="padding: 20px; max-width: 1200px; margin: 0 auto;">
+    <a href="/admin/index.html" class="btn-back">← Retour au panneau principal</a>
+    <h2>Éditeur de thème en temps réel</h2>
+  </div>
+
+  <div class="editor-container">
+    <!-- COLONNE GAUCHE : PARAMÈTRES -->
+    <div class="controls-panel">
+      <h3>Paramètres d'affichage</h3>
+
+      <!-- Texte de test -->
+      <div class="field">
+        <label for="cfg-test-text">Texte de test :</label>
+        <input type="text" id="cfg-test-text" value="Ceci est un message de test épinglé ! catJAM">
+      </div>
+
+      <!-- Couleurs -->
+      <div class="field">
+        <label for="cfg-bg-color">Couleur de fond :</label>
+        <input type="color" id="cfg-bg-color" value="#18181b">
+      </div>
+      <div class="field">
+        <label for="cfg-text-color">Couleur du texte :</label>
+        <input type="color" id="cfg-text-color" value="#ffffff">
+      </div>
+      <div class="field">
+        <label for="cfg-author-color">Couleur du pseudo :</label>
+        <input type="color" id="cfg-author-color" value="#ef4444">
+      </div>
+    <div class="field">
+        <label for="cfg-accent-color">Couleur d'accentuation (Bordure & Pin) :</label>
+        <input type="color" id="cfg-accent-color" value="#ef4444">
+    </div>
+    <div class="field">
+        <label for="cfg-meta-color">Couleur des textes d'informations :</label>
+        <input type="color" id="cfg-meta-color" value="#adadb8">
+    </div>
+
+      <!-- Taille de la police -->
+      <div class="field">
+        <label for="cfg-font-size">Taille du texte (<span id="font-size-val">16</span>px) :</label>
+        <input type="range" id="cfg-font-size" min="12" max="32" value="16">
+      </div>
+
+      <hr style="border-color: #333; margin: 20px 0;">
+
+      <!-- Elements à afficher -->
+      <div class="field-checkbox">
+        <input type="checkbox" id="cfg-show-author" checked>
+        <label for="cfg-show-author">Afficher l'auteur du message</label>
+      </div>
+      <div class="field-checkbox">
+        <input type="checkbox" id="cfg-show-pinnedby" checked>
+        <label for="cfg-show-pinnedby">Afficher qui a épinglé</label>
+      </div>
+      <div class="field-checkbox">
+        <input type="checkbox" id="cfg-show-timestamp">
+        <label for="cfg-show-timestamp">Afficher la date et l'heure</label>
+      </div>
+
+      <div style="display: flex; gap: 12px; margin-top: 20px;">
+        <button id="btn-save-style" class="btn-primary" style="flex: 2;">
+          💾 Enregistrer le style
+        </button>
+        <button id="btn-reset-style" class="btn-secondary" style="flex: 1; background: #3f3f46; color: #fff;">
+          ↺ Réinitialiser
+        </button>
+      </div>
+    </div>
+
+    <!-- COLONNE DROITE : PRÉVISUALISATION -->
+    <div class="preview-panel">
+      <h3>Aperçu OBS Studio</h3>
+      <iframe id="overlay-preview" src="/overlay/index.html?preview=true"></iframe>
+    </div>
+  </div>
+
+  <script src="style-editor.js"></script>
+</body>
+</html>

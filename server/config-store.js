@@ -1,6 +1,20 @@
 const fs = require('fs');
 const path = require('path');
 
+const defaultStyle = {
+  // Couleurs
+  bgColor: 'rgba(24, 24, 27, 0.85)',
+  textColor: '#ffffff',
+  authorColor: '#ef4444',
+  accentColor: '#9146ff',
+  // Typographie
+  fontSize: 16, // en px
+  // Visibilité des éléments
+  showAuthor: true,
+  showPinnedBy: true,
+  showTimestamp: false
+};
+
 /**
  * Stocke et lit la configuration dans le dossier système sécurisé de l'utilisateur.
  * Évite l'utilisation d'un fichier .env lisible par l'utilisateur.

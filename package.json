@@ -1,6 +1,6 @@
 {
   "name": "twitch-pinned-overlay",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Overlay OBS pour messages épinglés Twitch",
   "main": "main.js",
   "scripts": {
