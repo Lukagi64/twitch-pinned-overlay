@@ -29,6 +29,13 @@ async function fetchPinnedMessage(configStore) {
 
     if (response.status === 401) {
       console.warn('[Twitch API] Jeton non autorisé ou expiré.');
+      configStore.saveConfig({
+        accessToken: '',
+        broadcasterId: '',
+        broadcasterName: ''
+      });
+      sseManager.broadcast({ active: false, authRequired: true });
+      stopPolling();
       return;
     }
 

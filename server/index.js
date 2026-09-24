@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const sseManager = require('./sse-manager');
-const { startPolling } = require('./twitch-api');
+const { startPolling, stopPolling } = require('./twitch-api');
 
 const DEFAULT_CLIENT_ID = 'liqjwr59t8nbvi7edpfsn5sl0xyfoj';
 let serverInstance = null;
@@ -61,7 +61,7 @@ async function fetchThirdPartyEmotes(broadcasterId) {
 function startServer(configStore) {
   return new Promise((resolve) => {
     const app = express();
-    const port = configStore.get('port') || 3000;
+    const configuredPort = Number(configStore.get('port')) || 3000;
 
     app.use(express.json());
 
@@ -91,11 +91,23 @@ function startServer(configStore) {
     // Auth Twitch
     app.get('/auth/twitch', (req, res) => {
       const clientId = configStore.get('clientId') || DEFAULT_CLIENT_ID;
-      const redirectUri = `http://localhost:${port}/auth/callback`;
+      const redirectUri = `http://localhost:${serverInstance.address().port}/auth/callback`;
       const scope = 'user:read:chat moderator:read:chat_messages channel:read:redemptions';
 
       const twitchAuthUrl = `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=${encodeURIComponent(scope)}`;
       res.redirect(twitchAuthUrl);
+    });
+
+    app.post('/auth/logout', (req, res) => {
+      configStore.saveConfig({
+        accessToken: '',
+        refreshToken: '',
+        broadcasterId: '',
+        broadcasterName: ''
+      });
+      stopPolling();
+      sseManager.broadcast({ active: false, authRequired: true });
+      res.json({ success: true });
     });
 
     app.get('/auth/callback', (req, res) => {
@@ -181,6 +193,7 @@ function startServer(configStore) {
         const user = userData.data[0];
 
         configStore.saveConfig({
+          clientId,
           accessToken: accessToken,
           broadcasterId: user.id,
           broadcasterName: user.display_name || user.login
@@ -194,16 +207,32 @@ function startServer(configStore) {
       }
     });
 
-    serverInstance = app.listen(port, async () => {
-      console.log(`[Express] Serveur actif sur http://localhost:${port}`);
-      const broadcasterId = configStore.get('broadcasterId');
-      await fetchThirdPartyEmotes(broadcasterId);
+    const startListening = (port, allowFallback) => {
+      serverInstance = app.listen(port, async () => {
+        const actualPort = serverInstance.address().port;
+        console.log(`[Express] Serveur actif sur http://localhost:${actualPort}`);
+        const broadcasterId = configStore.get('broadcasterId');
+        await fetchThirdPartyEmotes(broadcasterId);
 
-      if (configStore.get('accessToken') && broadcasterId) {
-        startPolling(configStore);
-      }
-      resolve(port);
-    });
+        if (configStore.get('accessToken') && broadcasterId) {
+          startPolling(configStore);
+        }
+        resolve(actualPort);
+      });
+
+      serverInstance.once('error', (err) => {
+        if (err.code === 'EADDRINUSE' && allowFallback) {
+          console.warn(`[Express] Le port ${port} est déjà utilisé, utilisation d'un port libre.`);
+          serverInstance.close(() => startListening(0, false));
+          return;
+        }
+
+        console.error('[Express] Impossible de démarrer le serveur :', err);
+        throw err;
+      });
+    };
+
+    startListening(configuredPort, true);
   });
 }
 

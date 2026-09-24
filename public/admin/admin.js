@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const statusText = document.getElementById('status-text');
   const copyBtn = document.getElementById('copy-btn');
 
+  document.getElementById('overlay-url').value = `${window.location.origin}/overlay`;
+
   // Récupérer le nom de la chaîne depuis l'API local
   const res = await fetch('/api/status');
   const status = await res.json();
@@ -10,13 +12,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (status.authenticated && status.broadcasterName) {
     statusText.textContent = `Connecté en tant que : ${status.broadcasterName}`;
     statusText.style.color = '#00f59b';
-    loginBtn.textContent = 'Reconnecter le compte Twitch';
+    loginBtn.textContent = 'Déconnecter le compte Twitch';
   } else {
     statusText.textContent = 'Non connecté';
     statusText.style.color = '#ff4f4f';
   }
 
-  loginBtn.addEventListener('click', () => {
+  loginBtn.addEventListener('click', async () => {
+    if (status.authenticated) {
+      await fetch('/auth/logout', { method: 'POST' });
+      window.location.reload();
+      return;
+    }
+
     window.location.href = '/auth/twitch';
   });
 
